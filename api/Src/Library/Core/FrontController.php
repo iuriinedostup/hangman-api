@@ -2,6 +2,8 @@
 
 namespace Src\Library\Core;
 
+use Src\Library\ApplicationConst;
+
 final class FrontController
 {
     protected static $_instance = null;
@@ -19,6 +21,7 @@ final class FrontController
 
     public function init()
     {
-
+        $config = new Config(ApplicationConst::APP_CONFIG_FILE);
+        Registry::getInstance()->set('config', $config);
     }
 }

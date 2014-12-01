@@ -1,0 +1,6 @@
+;database config
+db.adapter = "Pdo_Mysql"
+db.name = ""
+db.user = ""
+db.password = ""
+db.host = ""
