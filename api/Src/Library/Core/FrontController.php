@@ -3,6 +3,7 @@
 namespace Src\Library\Core;
 
 use Src\Library\ApplicationConst;
+use Src\Library\Core\Classes\Config;
 
 final class FrontController
 {
