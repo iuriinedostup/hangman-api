@@ -22,7 +22,11 @@ final class FrontController
     private function __construct() {}
     private function __clone() {}
 
-
+    /**
+     * Returns instance of FrontController object
+     *
+     * @return null|FrontController
+     */
     public static function getInstance()
     {
         if (self::$_instance === null) {
@@ -31,18 +35,31 @@ final class FrontController
         return self::$_instance;
     }
 
+    /**
+     * Set Request to object params
+     *
+     * @param iRequest $request
+     * @return $this
+     */
     public function setRequest(iRequest $request)
     {
         $this->_request = $request;
         return $this;
     }
 
+    /**
+     * Returns request object
+     *
+     * @return mixed
+     */
     public function getRequest()
     {
         return $this->_request;
     }
 
     /**
+     * Set router object
+     *
      * @param mixed $router
      */
     public function setRouter(iRouter $router)
@@ -52,6 +69,8 @@ final class FrontController
     }
 
     /**
+     * Returns router object
+     *
      * @return iRouter
      */
     public function getRouter()
@@ -59,6 +78,9 @@ final class FrontController
         return $this->_router;
     }
 
+    /**
+     * Init application resources
+     */
     public function init()
     {
         try {

@@ -4,3 +4,8 @@ db.name = ""
 db.user = ""
 db.password = ""
 db.host = ""
+
+router.api_demo.route = "demo/resource"
+router.api_demo.APIObjectName = "demo"
+router.api_demo.APIFunctionName = "resource"
+router.api_demo.method = "GET"

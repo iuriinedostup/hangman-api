@@ -61,6 +61,9 @@ abstract class RouterAbstract implements iRouter
                     }
                     --$partsCount;
                 }
+                if ($request->getMethod() !== strtoupper($route->getRequestMethod())) {
+                    throw new RequestException('Incorrect request method', 405);
+                }
                 $request->setAPIObjectName($route->getAPIObjectName());
                 $request->setAPIFunctionName($route->getAPIFunctionName());
                 return $request;
