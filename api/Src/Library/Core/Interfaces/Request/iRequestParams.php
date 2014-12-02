@@ -34,4 +34,37 @@ interface iRequestParams
      * @return mixed
      */
     function setAPIFunctionName($functionName);
+
+    /**
+     * Set request params array
+     *
+     * @param $params
+     * @return mixed
+     */
+    function setParams($params);
+
+    /**
+     * Returns request params
+     *
+     * @return mixed
+     */
+    function getParams();
+
+    /**
+     * Set request parameter by $key
+     *
+     * @param $key
+     * @param $param
+     * @return mixed
+     */
+    function setParam($key, $param);
+
+    /**
+     * Return request param by key
+     *
+     * @param $key
+     * @param $default
+     * @return mixed
+     */
+    function getParam($key, $default);
 }

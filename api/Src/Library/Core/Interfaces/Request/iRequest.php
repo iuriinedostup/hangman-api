@@ -2,6 +2,8 @@
 
 namespace Src\Library\Core\Interfaces\Request;
 
+use Src\Library\Core\Interfaces\Router\iRouter;
+
 interface iRequest
 {
     /**
@@ -23,5 +25,5 @@ interface iRequest
      *
      * @return mixed
      */
-    function processRoute();
+    function processRoute(iRouter $router);
 }

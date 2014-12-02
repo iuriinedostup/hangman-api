@@ -34,7 +34,7 @@ class Config implements iConfig
      */
     function _load()
     {
-        $config = parse_ini_file($this->_fileName);
+        $config = parse_ini_file($this->_fileName, true);
         if (empty($config)) {
             return $this;
         }
