@@ -11,4 +11,4 @@ if (is_readable('autoloader.php')) {
 
 use Src\Library\Core\FrontController;
 
-FrontController::getInstance()->init();
+FrontController::getInstance()->init()->run();

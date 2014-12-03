@@ -4,9 +4,11 @@ namespace Src\Library\Core;
 
 use Src\Library\ApplicationConst;
 use Src\Library\Core\Classes\Config;
+use Src\Library\Core\Classes\Dispatcher;
 use Src\Library\Core\Exceptions\ApplicationException;
 use Src\Library\Core\Exceptions\ConfigException;
 use Src\Library\Core\Exceptions\RequestException;
+use Src\Library\Core\Interfaces\Classes\iDispatcher;
 use Src\Library\Core\Interfaces\Request\iRequest;
 use Src\Library\Core\Interfaces\Response\iResponse;
 use Src\Library\Core\Interfaces\Router\iRouter;
@@ -21,6 +23,7 @@ final class FrontController
     private $_request;
     private $_response;
     private $_router;
+    private $_dispatcher;
 
     private function __construct() {}
     private function __clone() {}
@@ -99,6 +102,22 @@ final class FrontController
     }
 
     /**
+     * @return iDispatcher
+     */
+    public function getDispatcher()
+    {
+        return $this->_dispatcher;
+    }
+
+    /**
+     * @param mixed $dispatcher
+     */
+    public function setDispatcher($dispatcher)
+    {
+        $this->_dispatcher = $dispatcher;
+    }
+
+    /**
      * Init application resources
      */
     public function init()
@@ -116,17 +135,32 @@ final class FrontController
             $request = new Request();
             $this->setRequest($request);
 
+            $dispatcher = new Dispatcher();
+            $this->setDispatcher($dispatcher);
+
 
         } catch (ApplicationException $e) {
-            if ($this->getResponse()) {
-                $this->getResponse()->addHeader('Content-Type', 'application-type/json');
-                $this->getResponse()->setContent(json_encode(array('error' => $e->getMessage(), 'code' => $e->getCode())));
-                $this->getResponse()->send();
+            if (!$this->getResponse()) {
+                $response = new Response();
             } else {
-                header('application-type/json');
-                echo json_encode(array('error' => $e->getMessage(), 'code' => $e->getCode()));
-                exit();
+                $response = $this->getResponse();
             }
+            $response->cleanHeaders();
+            $response->setContent(json_encode(array('error' => $e->getMessage(), 'code' => $e->getCode())));
+            $response->send();
         }
+        return $this;
+    }
+
+    public function run()
+    {
+        try {
+            $this->getDispatcher()->dispatch($this->getRequest(), $this->getResponse());
+        } catch (ApplicationException $e) {
+            $this->getResponse()->cleanHeaders();
+            $this->getResponse()->setHttpResponseCode($e->getCode());
+            $this->getResponse()->setContent(json_encode(array('error' => $e->getMessage())));
+        }
+        $this->getResponse()->send();
     }
 }

@@ -159,6 +159,7 @@ class ResponseAbstract implements iResponse
     {
         $this->sendHeaders();
         echo $this->getContent() ."\n";
+        exit;
     }
 
 }

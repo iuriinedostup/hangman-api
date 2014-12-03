@@ -12,4 +12,6 @@ class ApplicationConst
     const REQUEST_METHOD_PUT = 'PUT';
     const REQUEST_METHOD_DELETE = 'DELETE';
 
+    const APIObjectNS = 'Src\Application\APIObjects\\';
+
 }
