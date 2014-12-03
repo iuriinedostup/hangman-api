@@ -2,6 +2,7 @@
 
 namespace Src\Library\Core;
 
+use Src\Application\Bootstrap;
 use Src\Library\ApplicationConst;
 use Src\Library\Core\Classes\Config;
 use Src\Library\Core\Classes\Dispatcher;
@@ -24,6 +25,7 @@ final class FrontController
     private $_response;
     private $_router;
     private $_dispatcher;
+    private $_bootstrap;
 
     private function __construct() {}
     private function __clone() {}
@@ -118,6 +120,19 @@ final class FrontController
     }
 
     /**
+     * @return Bootstrap
+     */
+    public function getBootstrap()
+    {
+        if (null === $this->_bootstrap) {
+            $this->_bootstrap = new Bootstrap($this->getRequest(), $this->getResponse());
+        }
+        return $this->_bootstrap;
+    }
+
+
+
+    /**
      * Init application resources
      */
     public function init()
@@ -155,6 +170,7 @@ final class FrontController
     public function run()
     {
         try {
+            $this->getBootstrap()->run();
             $this->getDispatcher()->dispatch($this->getRequest(), $this->getResponse());
         } catch (ApplicationException $e) {
             $this->getResponse()->cleanHeaders();
