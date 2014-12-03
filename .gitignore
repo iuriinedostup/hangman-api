@@ -1,2 +1,4 @@
 .idea
 api/Src/Application/Config/application.ini
+api/vendor
+api/composer.lock
