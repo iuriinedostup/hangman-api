@@ -8,4 +8,5 @@ define('EXT','.php');
 
 use \Src\Library\Core\FrontController;
 
-FrontController::getInstance()->init()->getBootstrap()->run();
+FrontController::getInstance()->init();
+FrontController::getInstance()->getBootstrap()->run();

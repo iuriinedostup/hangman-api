@@ -77,7 +77,7 @@ class ResponseAbstract implements iResponse
      */
     function setHttpResponseCode($code)
     {
-        if (!((int) $code) || $code < 100 || $code > 599) {
+        if (!((int) $code) || ($code < 100 || $code > 599)) {
             throw new ResponseException('Invalid HTTP response code', self::HTTP_RESPONSE_CODE_ISE);
         }
         $this->_HTTPResponseCode = $code;

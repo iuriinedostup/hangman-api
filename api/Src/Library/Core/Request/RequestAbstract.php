@@ -27,9 +27,6 @@ abstract class RequestAbstract implements iRequest, iRequestParams
      */
     protected function setURI($uri)
     {
-        if (empty($uri)) {
-            throw new ApplicationException('Wrong request URI');
-        }
         $this->_uri = $uri;
         return $this;
     }

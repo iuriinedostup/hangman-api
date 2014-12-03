@@ -7,6 +7,7 @@ use Src\Library\Core\Exceptions\RequestException;
 use Src\Library\Core\FrontController;
 use Src\Library\Core\Interfaces\Request\iRequest;
 use Src\Library\Core\Interfaces\Router\iRouter;
+use Src\Library\Core\Response\Response;
 
 class Request extends RequestAbstract implements iRequest
 {
@@ -19,10 +20,9 @@ class Request extends RequestAbstract implements iRequest
     public function __construct($uri = null)
     {
         if ($uri === null) {
-            $uri = $this->parseURI();
+            $uri = isset($_SERVER["REQUEST_URI"]) ? $uri = $_SERVER["REQUEST_URI"] : '';
         }
         $this->setURI($uri);
-        $this->processRoute(FrontController::getInstance()->getRouter());
     }
 
     /**
@@ -76,7 +76,8 @@ class Request extends RequestAbstract implements iRequest
      */
     public function parseURI()
     {
-        $path = trim(parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH), "/");
+        $uri = $this->getURI() !== null ? $this->getURI() : '';
+        $path = trim(parse_url($uri, PHP_URL_PATH), "/");
         $path = preg_replace('/[^a-zA-Z0-9\/]/', "", $path);
         return $path;
     }
@@ -99,7 +100,7 @@ class Request extends RequestAbstract implements iRequest
             ApplicationConst::REQUEST_METHOD_DELETE
         );
         if (empty($method) || !in_array($method, $methods)) {
-            throw new RequestException('Wrong request method.');
+            throw new RequestException('Wrong request method.', Response::HTTP_RESPONSE_CODE_ISE);
         }
         $this->_method = $method;
         return $this->_method;
@@ -172,6 +173,7 @@ class Request extends RequestAbstract implements iRequest
      */
     public function processRoute(iRouter $router)
     {
+        $this->setURI($this->parseURI());
         $router->route($this);
     }
 

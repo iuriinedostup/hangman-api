@@ -148,8 +148,6 @@ final class FrontController
 
             $dispatcher = new Dispatcher();
             $this->setDispatcher($dispatcher);
-
-
         } catch (ApplicationException $e) {
             if (!$this->getResponse()) {
                 $response = new Response();
@@ -166,6 +164,7 @@ final class FrontController
     public function run()
     {
         try {
+            $this->getRequest()->processRoute($this->getRouter());
             $this->getBootstrap()->run();
             $this->getDispatcher()->dispatch($this->getRequest(), $this->getResponse());
         } catch (ApplicationException $e) {
