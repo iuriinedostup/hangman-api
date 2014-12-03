@@ -2,8 +2,12 @@
 
 namespace Src\Library\Core\Response;
 
+use Src\Library\ApplicationConst;
+use Src\Library\Core\Exceptions\ApplicationException;
 use Src\Library\Core\Exceptions\ResponseException;
 use Src\Library\Core\Interfaces\Response\iResponse;
+use Src\Library\Core\Interfaces\Response\Provider\iResponseProvider;
+use Src\Library\Core\Registry;
 
 class ResponseAbstract implements iResponse
 {
@@ -15,12 +19,46 @@ class ResponseAbstract implements iResponse
     protected $_HTTPResponseCode;
     protected $_headers = array();
     protected $_useProvider = true;
+    protected $_provider;
     protected $_content;
 
     public function __construct()
     {
+        $this->getDefaultProvider();
         $this->setHttpResponseCode(self::HTTP_RESPONSE_CODE_OK); //by default response is OK
     }
+
+    public function getDefaultProvider()
+    {
+        $config = Registry::getInstance()->get('config');
+        $responseConfig = $config->get('response');
+
+        $provider = ApplicationConst::ResponseProviderNS . (isset($responseConfig['provider']) ? $responseConfig['provider'] : '');
+        if (class_exists($provider)) {
+            $provider = new $provider($this);
+        } else {
+            $provider = null;
+        }
+        $this->setProvider($provider);
+        $this->useProvider($provider !== null);
+    }
+
+    /**
+     * @return iResponseProvider
+     */
+    public function getProvider()
+    {
+        return $this->_provider;
+    }
+
+    /**
+     * @param mixed $provider
+     */
+    public function setProvider($provider)
+    {
+        $this->_provider = $provider;
+    }
+
     /**
      * Returns HTTP response code
      *
@@ -124,7 +162,9 @@ class ResponseAbstract implements iResponse
      */
     function performResponseProvider()
     {
-        // TODO: Implement performResponseProvider() method.
+        if ($this->_useProvider && $this->getProvider() instanceof iResponseProvider) {
+            $this->getProvider()->modify();
+        }
     }
 
     /**
@@ -157,6 +197,7 @@ class ResponseAbstract implements iResponse
      */
     public function send()
     {
+        $this->performResponseProvider();
         $this->sendHeaders();
         echo $this->getContent() ."\n";
         exit;

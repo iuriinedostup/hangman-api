@@ -130,19 +130,17 @@ final class FrontController
         return $this->_bootstrap;
     }
 
-
-
     /**
      * Init application resources
      */
     public function init()
     {
         try {
-            $response = new Response();
-            $this->setResponse($response);
-
             $config = new Config(ApplicationConst::APP_CONFIG_FILE);
             Registry::getInstance()->set('config', $config);
+
+            $response = new Response();
+            $this->setResponse($response);
 
             $router = new Router();
             $this->setRouter($router);
@@ -161,7 +159,7 @@ final class FrontController
                 $response = $this->getResponse();
             }
             $response->cleanHeaders();
-            $response->setContent(json_encode(array('error' => $e->getMessage(), 'code' => $e->getCode())));
+            $response->setContent(array('error' => $e->getMessage(), 'code' => $e->getCode()));
             $response->send();
         }
         return $this;
@@ -175,7 +173,7 @@ final class FrontController
         } catch (ApplicationException $e) {
             $this->getResponse()->cleanHeaders();
             $this->getResponse()->setHttpResponseCode($e->getCode());
-            $this->getResponse()->setContent(json_encode(array('error' => $e->getMessage())));
+            $this->getResponse()->setContent(array('error' => $e->getMessage()));
         }
         $this->getResponse()->send();
     }

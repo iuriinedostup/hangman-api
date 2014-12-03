@@ -5,6 +5,8 @@ db.user = ""
 db.password = ""
 db.host = ""
 
+response.provider = "JsonProvider"
+
 router.api_demo.route = "demo/index"
 router.api_demo.APIObjectName = "demo"
 router.api_demo.APIFunctionName = "index"

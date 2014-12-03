@@ -13,5 +13,6 @@ class ApplicationConst
     const REQUEST_METHOD_DELETE = 'DELETE';
 
     const APIObjectNS = 'Src\Application\APIObjects\\';
+    const ResponseProviderNS = 'Src\Library\Core\Response\Provider\\';
 
 }
