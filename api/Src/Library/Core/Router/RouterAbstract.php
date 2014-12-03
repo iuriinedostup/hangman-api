@@ -8,6 +8,7 @@ use Src\Library\Core\Interfaces\Router\iRoute;
 use Src\Library\Core\Interfaces\Router\iRouter;
 use Src\Library\Core\Registry;
 use Src\Library\Core\Request\Request;
+use Src\Library\Core\Response\Response;
 
 abstract class RouterAbstract implements iRouter
 {
@@ -17,7 +18,7 @@ abstract class RouterAbstract implements iRouter
     {
         $config = Registry::getInstance()->get('config');
         if (null === $config) {
-            throw new ConfigException('Routers config not found');
+            throw new ConfigException('Routers config not found', Response::HTTP_RESPONSE_CODE_ISE);
         }
         $routerConfig = $config->get('router');
 
@@ -62,14 +63,14 @@ abstract class RouterAbstract implements iRouter
                     --$partsCount;
                 }
                 if ($request->getMethod() !== strtoupper($route->getRequestMethod())) {
-                    throw new RequestException('Incorrect request method', 405);
+                    throw new RequestException('Incorrect request method', Response::HTTP_RESPONSE_CODE_NOT_ALLOWED);
                 }
                 $request->setAPIObjectName($route->getAPIObjectName());
                 $request->setAPIFunctionName($route->getAPIFunctionName());
                 return $request;
             }
         }
-        throw new RequestException('Requested URI is incorrect.', 405);
+        throw new RequestException('Requested URI is incorrect.', Response::HTTP_RESPONSE_CODE_NOT_ALLOWED);
     }
 
 }
