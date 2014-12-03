@@ -10,6 +10,6 @@ class DemoAPIObject extends APIObject
 {
     public function indexFunction()
     {
-        return json_encode(array('result' => 'ok'));
+        return array('result' => 'ok');
     }
 }

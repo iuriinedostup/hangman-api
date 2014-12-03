@@ -22,7 +22,7 @@ final class Dispatcher implements iDispatcher
     {
         $APIObjectName = ucfirst(strtolower($request->getAPIObjectName())) . 'APIObject';
         $APIFunctionName = strtolower($request->getAPIFunctionName()) . 'Function';
-        $APIObjectClass = ApplicationConst::APIObjectNS . $APIObjectName;
+        $APIObjectClass = ApplicationConst::NS_API_OBJECT . $APIObjectName;
         if (!class_exists($APIObjectClass)) {
             throw new ApplicationException('APIObject is not exists.', Response::HTTP_RESPONSE_CODE_ISE);
         }

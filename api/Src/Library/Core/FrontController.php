@@ -7,8 +7,6 @@ use Src\Library\ApplicationConst;
 use Src\Library\Core\Classes\Config;
 use Src\Library\Core\Classes\Dispatcher;
 use Src\Library\Core\Exceptions\ApplicationException;
-use Src\Library\Core\Exceptions\ConfigException;
-use Src\Library\Core\Exceptions\RequestException;
 use Src\Library\Core\Interfaces\Classes\iDispatcher;
 use Src\Library\Core\Interfaces\Request\iRequest;
 use Src\Library\Core\Interfaces\Response\iResponse;

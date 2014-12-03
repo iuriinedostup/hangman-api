@@ -33,7 +33,7 @@ class ResponseAbstract implements iResponse
         $config = Registry::getInstance()->get('config');
         $responseConfig = $config->get('response');
 
-        $provider = ApplicationConst::ResponseProviderNS . (isset($responseConfig['provider']) ? $responseConfig['provider'] : '');
+        $provider = ApplicationConst::NS_RESPONSE_PROVIDER . (isset($responseConfig['provider']) ? $responseConfig['provider'] : '');
         if (class_exists($provider)) {
             $provider = new $provider($this);
         } else {

@@ -12,7 +12,8 @@ class ApplicationConst
     const REQUEST_METHOD_PUT = 'PUT';
     const REQUEST_METHOD_DELETE = 'DELETE';
 
-    const APIObjectNS = 'Src\Application\APIObjects\\';
-    const ResponseProviderNS = 'Src\Library\Core\Response\Provider\\';
+    const NS_API_OBJECT = 'Src\Application\APIObjects\\';
+    const NS_RESPONSE_PROVIDER = 'Src\Library\Core\Response\Provider\\';
+    const NS_DB_CLASSES = 'Src\Library\Core\Classes\Db\\';
 
 }
