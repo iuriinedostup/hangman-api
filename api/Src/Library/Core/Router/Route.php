@@ -4,6 +4,7 @@ namespace Src\Library\Core\Router;
 
 use Src\Library\Core\Exceptions\ConfigException;
 use Src\Library\Core\Interfaces\Router\iRoute;
+use Src\Library\Core\Response\Response;
 
 class Route implements iRoute
 {
@@ -19,7 +20,7 @@ class Route implements iRoute
         //validate route, controller and action names
         array_map(function($value){
                 if (empty($value) || !preg_match('/^[a-zA-Z_\/\d:]+$/', $value)) {
-                    throw new ConfigException('Invalid route params.');
+                    throw new ConfigException('Invalid route params.', Response::HTTP_RESPONSE_CODE_ISE);
                 }
             }, array($route, $APIObjectName, $APIFunctionName, $method));
 

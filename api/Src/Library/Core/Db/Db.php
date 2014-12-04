@@ -23,7 +23,10 @@ class Db
         $ns = ApplicationConst::NS_DB_CLASSES;
         $adapter = str_replace('_', '\\', $config['adapter']);
         $class = $ns . $adapter;
-        $db = new $class($config);
+        $db = null;
+        if (class_exists($class)) {
+            $db = new $class($config);
+        }
         return $db;
     }
 }

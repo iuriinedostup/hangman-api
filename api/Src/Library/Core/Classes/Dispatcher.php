@@ -35,7 +35,7 @@ final class Dispatcher implements iDispatcher
             {
                 $response->cleanHeaders();
                 $response->setHttpResponseCode($e->getCode());
-                $response->setContent(json_encode(array('error' => $e->getMessage())));
+                $response->setContent(array('error' => $e->getMessage()));
             }
         }
 

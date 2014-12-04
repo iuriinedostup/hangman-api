@@ -106,6 +106,11 @@ class Request extends RequestAbstract implements iRequest
         return $this->_method;
     }
 
+    public function setMethod($method)
+    {
+        $this->_method = $method;
+    }
+
     /**
      * Set request params array
      *
