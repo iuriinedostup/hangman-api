@@ -48,7 +48,9 @@ class Config implements iConfig
         }
         if (!(empty($data)) && isset($parent)) {
             $data = array_merge($config[$parent], $data);
-        } else {
+        } elseif(isset($config[APPLICATION_ENV])) {
+            $data = $config[APPLICATION_ENV];
+        }else {
             throw new ConfigException('Incorrect config.', Response::HTTP_RESPONSE_CODE_ISE);
         }
         if (empty($data)) {

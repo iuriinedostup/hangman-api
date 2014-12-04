@@ -7,10 +7,20 @@ db.host = "localhost"
 
 response.provider = "JsonProvider"
 
+service.key = '123456'
+service.wordsFile = APP_PATH "/Words/words.english.txt"
+
+;-----routes---------------
 router.api_demo.route = "demo/index"
 router.api_demo.APIObjectName = "demo"
 router.api_demo.APIFunctionName = "index"
 router.api_demo.method = "GET"
+
+router.service_load.route = "service/loadWords/:key"
+router.service_load.APIObjectName = "service"
+router.service_load.APIFunctionName = "load"
+router.service_load.method = "GET"
+;-----end routes---------------
 
 [development: production]
 db.adapter = "Pdo_Mysql"

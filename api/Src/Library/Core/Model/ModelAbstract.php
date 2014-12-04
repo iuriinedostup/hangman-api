@@ -206,7 +206,14 @@ abstract class ModelAbstract implements iModel
     public function find($params)
     {
         $result = array();
-        $data = $this->getStorage()->select("SELECT " . implode(',', $this->getMetaData()) . " FROM `" . $this->getTableName() . "`", $params);
+        $sql = "SELECT " . implode(',', $this->getMetaData()) . " FROM `" . $this->getTableName() . "`";
+        if (!empty($params)) {
+            $sql = $sql . 'WHERE ';
+            foreach($params as $key=>$value) {
+                $sql .= $key . ' = ' . ':'.$key;
+            }
+        }
+        $data = $this->getStorage()->select($sql, $params);
         foreach ($data as $row) {
             $model = clone $this;
             $model->setData($row);
