@@ -21,6 +21,16 @@ router.service_load.APIObjectName = "service"
 router.service_load.APIFunctionName = "load"
 router.service_load.method = "GET"
 
+router.create_game.route = "games"
+router.create_game.APIObjectName = "games"
+router.create_game.APIFunctionName = "index"
+router.create_game.method = "POST"
+
+router.get_games.route = "games"
+router.get_games.APIObjectName = "games"
+router.get_games.APIFunctionName = "index"
+router.get_games.method = "GET"
+
 router.games_get.route = "games/:id"
 router.games_get.APIObjectName = "games"
 router.games_get.APIFunctionName = "manage"
