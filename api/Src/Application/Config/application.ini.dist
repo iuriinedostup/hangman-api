@@ -45,3 +45,5 @@ db.name = ""
 db.user = ""
 db.password = ""
 db.host = ""
+
+service.wordsFile = APP_PATH "/Words/test.txt"

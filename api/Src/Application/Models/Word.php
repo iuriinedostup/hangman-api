@@ -87,4 +87,10 @@ class Word extends ModelAbstract
         return $i;
     }
 
+    public function getRandomWord()
+    {
+        $word = $this->findOneBy(array(), 'RAND()');
+        return $word;
+    }
+
 }

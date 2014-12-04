@@ -203,17 +203,18 @@ abstract class ModelAbstract implements iModel
      * @param $params
      * @return array
      */
-    public function find($params)
+    public function find($params, $order = null, $limit = null)
     {
         $result = array();
         $sql = "SELECT " . implode(',', $this->getMetaData()) . " FROM `" . $this->getTableName() . "`";
         if (!empty($params)) {
             $sql = $sql . 'WHERE ';
             foreach($params as $key=>$value) {
-                $sql .= $key . ' = ' . ':'.$key;
+                $sql .= $key . ' = ' . ':'.$key . ' ';
             }
+            $sql = rtrim($sql);
         }
-        $data = $this->getStorage()->select($sql, $params);
+        $data = $this->getStorage()->select($sql, $params, $order, $limit);
         foreach ($data as $row) {
             $model = clone $this;
             $model->setData($row);
@@ -221,6 +222,15 @@ abstract class ModelAbstract implements iModel
         }
         unset($model);
         return $result;
+    }
+
+    public function findOneBy($params = array(), $order = null)
+    {
+        $data = $this->find($params, $order, array(1));
+        if ($data) {
+            return $data[0];
+        }
+        return null;
     }
 
     /**
@@ -255,10 +265,10 @@ abstract class ModelAbstract implements iModel
      *
      * @return array
      */
-    public function findAll()
+    public function findAll($order = null, $limit = null)
     {
         $result = array();
-        $data = $this->getStorage()->select("SELECT " . implode(',', $this->getMetaData()) . " FROM `" . $this->getTableName() . "`");
+        $data = $this->getStorage()->select("SELECT " . implode(',', $this->getMetaData()) . " FROM `" . $this->getTableName() . "`", array(), $order, $limit);
         foreach ($data as $row) {
             $model = clone $this;
             $model->setData($row);

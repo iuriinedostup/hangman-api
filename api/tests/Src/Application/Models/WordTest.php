@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\Src\Application\Model;
+namespace tests\Src\Application\Models;
 
 use Src\Application\Models\Word;
 use Src\Library\Core\Interfaces\Model\iModel;
@@ -20,12 +20,29 @@ class WordTest extends \PHPUnit_Framework_TestCase
 
     public function testLoadWords()
     {
-        $this->_model->getStorage()->exec('TRUNCATE TABLE ' . $this->_model->getTableName());
+        $this->removeData();
         $service = Registry::getInstance()->get('config')->get('service');
         $file = $service['wordsFile'];
         $f = fopen($file, 'r');
         $n = $this->_model->loadWords($f);
-        $this->assertEquals($n, 4);
+        $this->assertEquals(4, $n);
+    }
+
+    /**
+     * @depends testLoadWords
+     */
+    public function testRandomWord()
+    {
+        $wordModel = new Word();
+        $word = $wordModel->getRandomWord();
+        $this->assertTrue($word !== null);
+        $this->assertTrue($word->getId() > 0);
+        $this->removeData();
+    }
+
+    public function removeData()
+    {
         $this->_model->getStorage()->exec('TRUNCATE TABLE ' . $this->_model->getTableName());
     }
+
 }

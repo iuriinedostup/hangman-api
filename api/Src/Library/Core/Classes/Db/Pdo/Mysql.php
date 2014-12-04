@@ -29,9 +29,14 @@ class Mysql extends \PDO implements iDb
      * @param object $fetchMode
      * @return array returns an array of records
      */
-    public function select($sql, $params = array(), $fetchMode = \PDO::FETCH_OBJ)
+    public function select($sql, $params = array(), $order = null, $limit = null, $fetchMode = \PDO::FETCH_OBJ)
     {
-
+        if ($order && is_string($order)) {
+            $sql .=' ORDER BY ' . $order;
+        }
+        if ($limit && is_array($limit)) {
+            $sql .= ' LIMIT ' . implode($limit);
+        }
         $stmt = $this->prepare($sql);
         foreach ($params as $key => $value) {
             if (is_int($value)) {

@@ -6,7 +6,7 @@ interface iDb
 {
     public function insert($table, $data);
     public function update($table, $data, $where);
-    public function select($sql, $params = array(), $fetchMode  = \PDO::FETCH_OBJ);
+    public function select($sql, $params = array(), $order = null, $limit = null, $fetchMode  = \PDO::FETCH_OBJ);
     public function delete($table, $where, $limit = 1);
     public function runSQL($rawSQL, $fetchMode = \PDO::FETCH_OBJ);
     public function getMetaData($resource);
