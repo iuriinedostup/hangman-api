@@ -5,6 +5,7 @@ namespace Src\Library\Core\Classes;
 use Src\Library\ApplicationConst;
 use Src\Library\Core\Exceptions\ConfigException;
 use Src\Library\Core\Interfaces\Classes\iConfig;
+use Src\Library\Core\Response\Response;
 
 class Config implements iConfig
 {
@@ -35,10 +36,25 @@ class Config implements iConfig
     function _load()
     {
         $config = parse_ini_file($this->_fileName, true);
-        if (empty($config)) {
+        $data = array();
+        foreach ($config as $key=>$conf)
+        {
+            if (preg_match("/^" . APPLICATION_ENV . ":/", $key)) {
+                $data = $conf;
+                $parts = explode(':', $key);
+                $parent = trim($parts[1]);
+                break;
+            }
+        }
+        if (!(empty($data)) && isset($parent)) {
+            $data = array_merge($config[$parent], $data);
+        } else {
+            throw new ConfigException('Incorrect config.', Response::HTTP_RESPONSE_CODE_ISE);
+        }
+        if (empty($data)) {
             return $this;
         }
-        foreach ($config as $key=>$value) {
+        foreach ($data as $key=>$value) {
             if (!(preg_match('/^[\da-zA-Z_\.]+$/', $key))) {
                 throw new ConfigException('Invalid config key.');
             }

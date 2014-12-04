@@ -1,9 +1,9 @@
-;database config
+[production]
 db.adapter = "Pdo_Mysql"
-db.name = ""
-db.user = ""
-db.password = ""
-db.host = ""
+db.name = "hangman"
+db.user = "root"
+db.password = "123456"
+db.host = "localhost"
 
 response.provider = "JsonProvider"
 
@@ -11,3 +11,17 @@ router.api_demo.route = "demo/index"
 router.api_demo.APIObjectName = "demo"
 router.api_demo.APIFunctionName = "index"
 router.api_demo.method = "GET"
+
+[development: production]
+db.adapter = "Pdo_Mysql"
+db.name = ""
+db.user = ""
+db.password = ""
+db.host = ""
+
+[testing: production]
+db.adapter = ""
+db.name = ""
+db.user = ""
+db.password = ""
+db.host = ""
