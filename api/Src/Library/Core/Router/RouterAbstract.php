@@ -49,7 +49,7 @@ abstract class RouterAbstract implements iRouter
          * @var $route iRoute - Route object
          */
         foreach ($this->_routes as $route) {
-            if ($partsCount == $route->getCountRouteParts()) {
+            if ($partsCount == $route->getCountRouteParts() && $request->getMethod() === strtoupper($route->getRequestMethod())) {
                 $r = explode('/', trim($route->getRoute(), '/'));
                 while ($partsCount > 0) {
                     //find params in URI and set it to request
@@ -62,15 +62,13 @@ abstract class RouterAbstract implements iRouter
                     }
                     --$partsCount;
                 }
-                if ($request->getMethod() !== strtoupper($route->getRequestMethod())) {
-                    throw new RequestException('Incorrect request method', Response::HTTP_RESPONSE_CODE_NOT_ALLOWED);
-                }
                 $request->setAPIObjectName($route->getAPIObjectName());
                 $request->setAPIFunctionName($route->getAPIFunctionName());
                 return $request;
+
             }
         }
-        throw new RequestException('Requested URI is incorrect.', Response::HTTP_RESPONSE_CODE_NOT_ALLOWED);
+        throw new RequestException('Requested URI or method is incorrect.', Response::HTTP_RESPONSE_CODE_NOT_ALLOWED);
     }
 
 }
