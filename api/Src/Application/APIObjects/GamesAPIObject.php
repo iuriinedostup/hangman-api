@@ -55,6 +55,21 @@ class GamesAPIObject extends APIObject
                 return array('result' => true, 'game' => $game);
             }
             return array('result' => false, 'message' => 'Game not found.');
+        } elseif ($this->getRequest()->getMethod() == ApplicationConst::REQUEST_METHOD_POST) {
+            $char = $this->getRequest()->getParam('char', false);
+            if (!$char || strlen($char) > 1) {
+                return array('result' => false, 'message' => 'Incorrect char');
+            }
+            $model = new Game();
+            $game = $model->processGame($id, $char);
+            if ($game) {
+                $data = $game->getGameData($game);
+                return array('result' => true, 'game' => $data);
+            }
+
+
+
         }
+        return array('result' => false);
     }
 }

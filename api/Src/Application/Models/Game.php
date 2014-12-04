@@ -201,22 +201,64 @@ class Game extends ModelAbstract
         return $data;
     }
 
-    public function getGameById($id)
+    public function getGameById($id, $active = true)
     {
         if (!(int) $id) {
             return null;
         }
-        $game = $this->findById($id);
+        $params = array('id' => $id);
+        if ($active) {
+            $params['status'] = self::STATUS_BUSY;
+        }
+        $game = $this->findOneBy($params);
         if ($game) {
-            $data = array(
-                'id' => $game->getId(),
-                'word' => $game->getGuessWord(),
-                'tiers_left' => $game->getTiersLeft(),
-                'status' => $game->getStatus()
-            );
+            $data = $this->getGameData($game);
             return $data;
         }
         return null;
+    }
+
+    public function getGameData(Game $game)
+    {
+        $data = array(
+            'id' => $game->getId(),
+            'word' => $game->getGuessWord(),
+            'tiers_left' => $game->getTiersLeft(),
+            'status' => $game->getStatus()
+        );
+        return $data;
+    }
+
+    public function processGame($id, $char)
+    {
+        $game = $this->findById($id);
+        if (!$game) {
+            return null;
+        }
+        $userInput = $game->getUserInput() . $char;
+        $game->setUserInput($userInput);
+
+        $tiersLeft = $game->getTiersLeft();
+        if ($tiersLeft == 0) {
+            $game->setStatus(self::STATUS_FAIL);
+            $game->save();
+            return $game;
+        }
+        $tiersLeft -= 1;
+        $game->setTiersLeft($tiersLeft);
+
+        $guessWord = $game->getGuessWord();
+        $word = $game->getWord()->getWord();
+        while (($pos = strpos($word, $char)) !== false) {
+            $guessWord{$pos} = $char;
+            $word{$pos} = '.';
+        }
+        $game->setGuessWord($guessWord);
+        if ($game->getGuessWord() == $game->getWord()->getWord()) {
+            $game->setStatus(self::STATUS_SUCCESS);
+        }
+        $game->save();
+        return $game;
     }
 
 }
