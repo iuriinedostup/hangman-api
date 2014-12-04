@@ -163,4 +163,9 @@ class Mysql extends \PDO implements iDb
         $stmt->execute();
         return $stmt->fetchAll($fetchMode);
     }
+
+    public function getMetaData($resource)
+    {
+        return $this->runSQL("DESCRIBE " . $resource, \PDO::FETCH_COLUMN);
+    }
 }

@@ -9,4 +9,5 @@ interface iDb
     public function select($sql, $params = array(), $fetchMode  = \PDO::FETCH_OBJ);
     public function delete($table, $where, $limit = 1);
     public function runSQL($rawSQL, $fetchMode = \PDO::FETCH_OBJ);
+    public function getMetaData($resource);
 }
