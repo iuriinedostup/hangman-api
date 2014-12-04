@@ -31,6 +31,11 @@ router.get_games.APIObjectName = "games"
 router.get_games.APIFunctionName = "index"
 router.get_games.method = "GET"
 
+router.get_game_info.route = "games/:id"
+router.get_game_info.APIObjectName = "games"
+router.get_game_info.APIFunctionName = "manage"
+router.get_game_info.method = "GET"
+
 router.games_get.route = "games/:id"
 router.games_get.APIObjectName = "games"
 router.games_get.APIFunctionName = "manage"

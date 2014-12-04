@@ -44,7 +44,17 @@ class GamesAPIObject extends APIObject
      */
     public function manageFunction()
     {
-
-        return array('result' => 'ok');
+        $id = $this->getRequest()->getParam('id', false);
+        if (!((int) $id)) {
+            return array('result' => false, 'message' => 'Incorrect game ID');
+        }
+        if ($this->getRequest()->getMethod() == ApplicationConst::REQUEST_METHOD_GET) {
+            $model = new Game();
+            $game = $model->getGameById($id);
+            if ($game) {
+                return array('result' => true, 'game' => $game);
+            }
+            return array('result' => false, 'message' => 'Game not found.');
+        }
     }
 }

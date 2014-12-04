@@ -253,9 +253,9 @@ abstract class ModelAbstract implements iModel
      */
     public function findById($id)
     {
-        $data = $this->getStorage()->select("SELECT " . implode(',', $this->getMetaData()) . " FROM `" . $this->getTableName() . "` WHERE " . $this->getPkName() . " = :id", array('id' => $id));
-        if (isset($data[0])) {
-            return $this->setData($data[0]);
+        $data = $this->findOneBy(array('id' => $id));
+        if ($data) {
+            return $data;
         }
         return false;
     }

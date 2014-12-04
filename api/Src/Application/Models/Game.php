@@ -201,4 +201,22 @@ class Game extends ModelAbstract
         return $data;
     }
 
+    public function getGameById($id)
+    {
+        if (!(int) $id) {
+            return null;
+        }
+        $game = $this->findById($id);
+        if ($game) {
+            $data = array(
+                'id' => $game->getId(),
+                'word' => $game->getGuessWord(),
+                'tiers_left' => $game->getTiersLeft(),
+                'status' => $game->getStatus()
+            );
+            return $data;
+        }
+        return null;
+    }
+
 }
