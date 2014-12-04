@@ -45,6 +45,8 @@ abstract class RouterAbstract implements iRouter
         $partsCount = count(explode('/', $uri));
         $uriParts = explode('/', $uri);
 
+        $methodIncorrect = false;
+
         /**
          * @var $route iRoute - Route object
          */
@@ -63,12 +65,17 @@ abstract class RouterAbstract implements iRouter
                     --$partsCount;
                 }
                 if ($request->getMethod() !== strtoupper($route->getRequestMethod())) {
-                    throw new RequestException('Incorrect request method', Response::HTTP_RESPONSE_CODE_NOT_ALLOWED);
+                    $methodIncorrect = true;
+                } else {
+                    $methodIncorrect = false;
                 }
                 $request->setAPIObjectName($route->getAPIObjectName());
                 $request->setAPIFunctionName($route->getAPIFunctionName());
                 return $request;
             }
+        }
+        if ($methodIncorrect) {
+            throw new RequestException('Incorrect request method', Response::HTTP_RESPONSE_CODE_NOT_ALLOWED);
         }
         throw new RequestException('Requested URI is incorrect.', Response::HTTP_RESPONSE_CODE_NOT_ALLOWED);
     }
