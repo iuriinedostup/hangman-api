@@ -20,6 +20,16 @@ router.service_load.route = "service/loadWords/:key"
 router.service_load.APIObjectName = "service"
 router.service_load.APIFunctionName = "load"
 router.service_load.method = "GET"
+
+router.games_get.route = "games/:id"
+router.games_get.APIObjectName = "games"
+router.games_get.APIFunctionName = "manage"
+router.games_get.method = "GET"
+
+router.games_post.route = "games/:id"
+router.games_post.APIObjectName = "games"
+router.games_post.APIFunctionName = "manage"
+router.games_post.method = "POST"
 ;-----end routes---------------
 
 [development: production]
