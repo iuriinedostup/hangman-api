@@ -14,6 +14,8 @@ abstract class ModelAbstract implements iModel
     protected $_pkName = false;
     protected $_metaData;
 
+    protected static $_instance = null;
+
     /**
      * Set model storage
      *
@@ -224,6 +226,13 @@ abstract class ModelAbstract implements iModel
         return $result;
     }
 
+    /**
+     * Find one row by params according to order
+     *
+     * @param array $params
+     * @param null $order
+     * @return null
+     */
     public function findOneBy($params = array(), $order = null)
     {
         $data = $this->find($params, $order, array(1));
@@ -246,7 +255,7 @@ abstract class ModelAbstract implements iModel
     }
 
     /**
-     * Find dara in the storage by Id and return model object
+     * Find data in the storage by Id and return model object
      *
      * @param $id
      * @return $this|bool

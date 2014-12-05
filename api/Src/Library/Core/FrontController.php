@@ -161,6 +161,9 @@ final class FrontController
         return $this;
     }
 
+    /**
+     * Run application
+     */
     public function run()
     {
         try {

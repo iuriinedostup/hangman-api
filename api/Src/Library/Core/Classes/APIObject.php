@@ -5,7 +5,7 @@ namespace Src\Library\Core\Classes;
 use Src\Library\Core\Request\Request;
 use Src\Library\Core\Response\Response;
 
-class APIObject
+abstract class APIObject
 {
     protected $_request;
     protected $_response;

@@ -20,6 +20,9 @@ class DemoAPIObjectTest extends \PHPUnit_Framework_TestCase
         $this->_response = new Response();
     }
 
+    /**
+     * Test instance of Demo object
+     */
     public function testIndex()
     {
         $demoAPIObject = new DemoAPIObject($this->_request, $this->_response);

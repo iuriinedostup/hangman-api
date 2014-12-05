@@ -2,6 +2,8 @@
 
 namespace Src\Library\Core\Interfaces\Classes;
 
+use Src\Library\Core\Exceptions\ConfigException;
+
 interface iConfig
 {
     /**
@@ -12,10 +14,11 @@ interface iConfig
     function _load();
 
     /**
-     * Config key
+     * Get config key
      *
      * @param $key
-     * @return mixed
+     * @return mixed|void
+     * @throws ConfigException
      */
     function get($key);
 

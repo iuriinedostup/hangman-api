@@ -5,6 +5,12 @@ namespace Src\Library\Core\Db;
 use Src\Library\ApplicationConst;
 use Src\Library\Core\Exceptions\DbException;
 
+/**
+ * Database connections factory
+ *
+ * Class Db
+ * @package Src\Library\Core\Db
+ */
 class Db
 {
     /**

@@ -16,6 +16,14 @@ class Word extends ModelAbstract
         return 'words';
     }
 
+    public static function model()
+    {
+        if (self::$_instance === null) {
+            self::$_instance = new self();
+        }
+        return self::$_instance;
+    }
+
     /**
      * @return mixed
      */
@@ -64,18 +72,20 @@ class Word extends ModelAbstract
         $this->_word = $word;
     }
 
+    /**
+     * Load words to DB from file
+     *
+     * @param $file
+     * @return int
+     */
     public function loadWords($file)
     {
         $i = 0;
         if ($file) {
             while (($line = fgets($file)) !== false) {
-                $current = clone $this;
-                $word = $current->find(array('word' => trim($line)));
-                if (!empty($word)) {
-                    $word = $word[0];
-                    if ($word->getId()) {
-                        continue;
-                    }
+                $word = $this->findOneBy(array('word' => trim($line)));
+                if (!empty($word) && $word->getId()) {
+                    continue;
                 }
                 $model = clone $this;
                 $model->setWord(trim($line));
@@ -87,6 +97,11 @@ class Word extends ModelAbstract
         return $i;
     }
 
+    /**
+     * Return random word from DB
+     *
+     * @return null
+     */
     public function getRandomWord()
     {
         $word = $this->findOneBy(array(), 'RAND()');

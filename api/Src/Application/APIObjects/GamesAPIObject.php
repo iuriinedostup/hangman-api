@@ -28,7 +28,7 @@ class GamesAPIObject extends APIObject
         } elseif ($this->getRequest()->getMethod() == ApplicationConst::REQUEST_METHOD_GET) {
             $game = new Game();
             $games = $game->listGames();
-            $result = array('result' => $games !== null);
+            $result = array('result' => true, 'games' => 0);
             if ($games) {
                 $result['games'] = $games;
             }

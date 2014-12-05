@@ -13,11 +13,22 @@ class Response extends ResponseAbstract
         $this->addHeader('Content-Type', 'application/json'); //JSON by default
     }
 
+    /**
+     * Clean header and set header by default
+     * @return mixed|void
+     */
     public function cleanHeaders()
     {
         parent::cleanHeaders();
         $this->addHeader('Content-Type', 'application/json'); //JSON by default
     }
+
+    /**
+     * Add list of headers by one time
+     *
+     * @param $headers
+     * @throws ResponseException
+     */
     public function addHeaders($headers)
     {
         if (!empty($headers) && is_array($headers)) {

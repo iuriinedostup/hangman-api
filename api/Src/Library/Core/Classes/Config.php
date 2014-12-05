@@ -81,10 +81,11 @@ class Config implements iConfig
     }
 
     /**
-     * Config key
+     * Get config key
      *
      * @param $key
-     * @return mixed
+     * @return mixed|void
+     * @throws ConfigException
      */
     function get($key)
     {

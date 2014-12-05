@@ -13,4 +13,5 @@ interface iModel
     public function setData($data);
     public function getData();
     public function getMetaData();
+    public static function model();
 }

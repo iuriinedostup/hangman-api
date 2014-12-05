@@ -23,6 +23,15 @@ class Game extends ModelAbstract
 
     const TIERS_DEFAULT = 11;
 
+    public static function model()
+    {
+        if (self::$_instance === null) {
+            self::$_instance = new self();
+        }
+        return self::$_instance;
+    }
+
+
     public function init()
     {
         $this->setStatus(self::STATUS_BUSY);
@@ -162,19 +171,28 @@ class Game extends ModelAbstract
         return 'games';
     }
 
+    /**
+     * Overwrite function for select related word to the model
+     *
+     * @param $data
+     * @return $this|void
+     */
     public function setData($data)
     {
         parent::setData($data);
         if ($this->getWordId()) {
-            $word = new Word();
-            $this->setWord($word->findById($this->getWordId()));
+            $this->setWord(Word::model()->findById($this->getWordId()));
         }
     }
 
+    /**
+     * Create new game
+     *
+     * @return mixed|null
+     */
     public function createGame()
     {
-        $word = new Word();
-        $randomWord = $word->getRandomWord();
+        $randomWord = Word::model()->getRandomWord();
         if ($randomWord) {
             $this->setWordId($randomWord->getId());
             $this->setGuessWord(preg_replace('/./','.', trim($randomWord->getWord())));
@@ -184,9 +202,16 @@ class Game extends ModelAbstract
         return null;
     }
 
-    public function listGames()
+    /**
+     * Get all games
+     *
+     * @param null $order
+     * @param null $limit
+     * @return array
+     */
+    public function listGames($order = null, $limit = null)
     {
-        $games = $this->findAll();
+        $games = $this->findAll($order, $limit);
         if (empty($games)) {
             return null;
         }
@@ -201,6 +226,13 @@ class Game extends ModelAbstract
         return $data;
     }
 
+    /**
+     * Get game by ID and prepare data
+     *
+     * @param $id
+     * @param bool $active
+     * @return array|null
+     */
     public function getGameById($id, $active = true)
     {
         if (!(int) $id) {
@@ -218,6 +250,12 @@ class Game extends ModelAbstract
         return null;
     }
 
+    /**
+     * Prepare game data for response
+     *
+     * @param Game $game
+     * @return array
+     */
     public function getGameData(Game $game)
     {
         $data = array(
@@ -229,23 +267,24 @@ class Game extends ModelAbstract
         return $data;
     }
 
+    /**
+     * Process game by ID and user`s input char
+     *
+     * @param $id
+     * @param $char
+     * @return $this|bool
+     */
     public function processGame($id, $char)
     {
         $game = $this->findById($id);
         if (!$game) {
             return null;
         }
-        $userInput = $game->getUserInput() . $char;
-        $game->setUserInput($userInput);
-
-        $tiersLeft = $game->getTiersLeft();
-        if ($tiersLeft == 0) {
+        $game->setUserInput($game->getUserInput() . $char);
+        $game->setTiersLeft($game->getTiersLeft() > 0 ? $game->getTiersLeft() - 1 : $game->getTiersLeft());
+        if ($game->getTiersLeft() == 0) {
             $game->setStatus(self::STATUS_FAIL);
-            $game->save();
-            return $game;
         }
-        $tiersLeft -= 1;
-        $game->setTiersLeft($tiersLeft);
 
         $guessWord = $game->getGuessWord();
         $word = $game->getWord()->getWord();

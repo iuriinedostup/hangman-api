@@ -18,6 +18,13 @@ final class Dispatcher implements iDispatcher
         $this->setIsDispatched(false);
     }
 
+    /**
+     * Start dispatch by request and perform object action
+     *
+     * @param iRequestParams $request
+     * @param iResponse $response
+     * @throws ApplicationException
+     */
     public function dispatch(iRequestParams $request, iResponse $response)
     {
         $APIObjectName = ucfirst(strtolower($request->getAPIObjectName())) . 'APIObject';
@@ -55,6 +62,8 @@ final class Dispatcher implements iDispatcher
     }
 
     /**
+     * Check is dispatched
+     *
      * @param mixed $isDispatched
      */
     public function setIsDispatched($isDispatched)

@@ -13,11 +13,17 @@ class WordTest extends \PHPUnit_Framework_TestCase
      */
     protected $_model;
 
+    /**
+     * Set up base model for tests
+     */
     public function setUp()
     {
         $this->_model = new Word();
     }
 
+    /**
+     * Testing load of words
+     */
     public function testLoadWords()
     {
         $this->removeData();
