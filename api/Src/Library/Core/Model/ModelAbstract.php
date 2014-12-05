@@ -203,12 +203,17 @@ abstract class ModelAbstract implements iModel
      * Retrieve data from storage by parameters
      *
      * @param $params
+     * @param $order
+     * @param $limit
      * @return array
      */
     public function find($params, $order = null, $limit = null)
     {
         $result = array();
-        $sql = "SELECT " . implode(',', $this->getMetaData()) . " FROM `" . $this->getTableName() . "`";
+
+        $metaData = $this->getMetaData();
+        $cols = !empty($metaData) && is_array($metaData) ? implode(',', $metaData) : '*';
+        $sql = "SELECT " . $cols . " FROM `" . $this->getTableName() . "`";
         if (!empty($params)) {
             $sql = $sql . 'WHERE ';
             foreach($params as $key=>$value) {

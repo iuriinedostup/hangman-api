@@ -166,7 +166,10 @@ class Mysql extends \PDO implements iDb
     {
         $stmt = $this->prepare($rawSQL);
         $stmt->execute();
-        return $stmt->fetchAll($fetchMode);
+        if (strpos($rawSQL, 'INSERT') === false && strpos($rawSQL, 'UPDATE') === false) {
+            return $stmt->fetchAll($fetchMode);
+        }
+        return $stmt;
     }
 
     public function getMetaData($resource)

@@ -76,21 +76,27 @@ class Word extends ModelAbstract
      * Load words to DB from file
      *
      * @param $file
+     * @param $items
      * @return int
      */
-    public function loadWords($file)
+    public function loadWords($file, $items = 20)
     {
         $i = 0;
         if ($file) {
+            $sql = '';
+            $count = 0;
             while (($line = fgets($file)) !== false) {
                 $word = $this->findOneBy(array('word' => trim($line)));
                 if (!empty($word) && $word->getId()) {
                     continue;
                 }
-                $model = clone $this;
-                $model->setWord(trim($line));
-                $model->setIsDeleted(0);
-                $model->save();
+                ++$count;
+                $sql.= 'INSERT INTO ' . $this->getTableName() . '(id,word,is_deleted) VALUES(null,"'.trim($line).'",0);';
+                if ($count == $items) {
+                    Word::model()->runSQL($sql);
+                    $count = 0;
+                    $sql = '';
+                }
                 ++$i;
             }
         }
