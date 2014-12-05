@@ -24,8 +24,9 @@ Install
         </VirtualHost>
 
 3. Copy config from `application.ini.dist` to `application.ini` in path `/api/Src/Application/Config` and put your settings for DB and service key.
-4. Load default words. Run command `curl -X GET http://api.hangman.local/service/loadWords/123456`. `123456` - is a service key from `application.ini`.
-5. Application ready for use.
+4. Run composer: `php composer.phar install`
+5. Load default words. Run command `curl -X GET http://api.hangman.local/service/loadWords/123456`. `123456` - is a service key from `application.ini`.
+6. Application ready for use.
 
 How to use
 ---
