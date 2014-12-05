@@ -31,7 +31,7 @@ Install
 How to use
 ---
 1. list all games: `curl -X GET http://api.hangman.local/games`
-2. Create new game: `curl -X POST http://api.hangman.local/`. This returns game ID in JSON response.
+2. Create new game: `curl -X POST http://api.hangman.local/games`. This returns game ID in JSON response.
 3. Get game info: `curl -X GET http://api.hangman.local/games/<ID>`. Returns: id, word, tiers_left, status in JSON response
 4. Guess letter: `curl -X POST http://api.hangman.local/games/<ID>?char=<char>`. Returns game info
 
